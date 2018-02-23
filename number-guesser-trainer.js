@@ -2,7 +2,7 @@
 
 //ADJUSTABLE VALUES
 var lr = 0.1;
-var training_count = 500000;
+var training_count = 1;
 var lr_target = 0.0001;
 //ADJUSTABLE VALUES
 
@@ -38,7 +38,7 @@ function setup() {
 
 //Looped actions
 function draw(){
-  background(50,50,50);
+  background(255);
 
   //Grid
   drawGrid(0,0);
