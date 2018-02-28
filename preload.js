@@ -9,7 +9,7 @@ var wd = wei * size;
 var hd = hei * size;
 
 var img = new Image();
-img.src = 'http://image.ibb.co/jfcYnc/1.jpg';
+img.src = '1.jpg';
 
 // draw the original image at a fraction of the final size
 ctx.drawImage(img, 0, 0, wd, hd);
@@ -23,7 +23,7 @@ ctx.imageSmoothingEnabled = false;
 // enlarge the minimized image to full size
 ctx.drawImage(canvas, 0, 0, wd, hd, 0, 0, wei, hei);
 //
-for(let i = 0; i < h; i++){ 
+for(let i = 0; i < h; i++){
   for(let j = 0; j < w; i++){
     var p = ctx.getImageData(j, i, 1, 1).data;
     console.log(w);
