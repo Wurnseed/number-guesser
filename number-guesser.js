@@ -1,6 +1,7 @@
 var cols  = 3;
 var rows  = 5;
 
+
 //Getting html element
 let html = document.getElementById('html')
 //Setting a pixel width to a value of the page height - 1%
