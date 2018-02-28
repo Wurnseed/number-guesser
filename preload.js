@@ -27,6 +27,7 @@ for(let i = 0; i < h; i++){
   for(let j = 0; j < w; i++){
     var p = ctx.getImageData(j, i, 1, 1).data;
     console.log(w);
+    console.log(h);
     console.log(p);
     break;
     // if(p[0]+p[1]+p[2]/3 <= 100){
