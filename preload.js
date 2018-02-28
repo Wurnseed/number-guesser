@@ -9,7 +9,7 @@ var wd = wei * size;
 var hd = hei * size;
 
 var img = new Image();
-img.src = 'http://image.ibb.co/jfcYnc/1.jpg';
+img.src = 'test.jpg';
 
 // draw the original image at a fraction of the final size
 ctx.drawImage(img, 0, 0, wd, hd);
