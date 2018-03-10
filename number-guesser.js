@@ -1,12 +1,16 @@
 var neunet;
 var data;
 
+function preload(){
+    data = loadBytes("numbers100.lmnist");
+}
+
 //Setup actions
 function setup() {
-  
+
   createCanvas(280,280);
   background(255);
-  data = loadBytes("numbers100.lmnist");
+
 
    //NeuralNetwork initialization and training
    var neunet = new NeuralNetwork(784, 800, 10);
