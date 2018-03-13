@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html id="html">
 <head>
-  <script src="https://apis.google.com/js/api.js" type="text/javascript"></script>
-<script type="text/javascript">
-  gapi.load('auth2', function() {
-    // Library loaded.
-  });
-</script>
-  <script src="p5.min.js"></script>
-  <script src="matrix.js"></script>
-  <script src="nn.js"></script>
+  <script src="libs/p5.min.js"></script>
+  <script src="libs/matrix.js"></script>
+  <script src="libs/nn.js"></script>
   <script src="number-guesser.js"></script>
-  <script src="loadbinary.js"></script>
+  <script src="libs/loadbinary.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body style="margin:0; background-color: #eee;">
   <button id="subm" onclick="subm()">Submit</button>
+  <button style="margin: 20px" id="clr" onclick="clr()">Clear</button>
 </body>
 </html>
