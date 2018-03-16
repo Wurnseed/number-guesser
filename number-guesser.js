@@ -1,4 +1,4 @@
-  //////////////////////////////////
+//////////////////////////////////
 //          ADJUSTABLE          //
 //            VALUES            //
 //////////////////////////////////
@@ -22,9 +22,12 @@ var hn = 1;
 
 
 
-
+// Defining weather it is hosted
+// on localhost or on real server
 var lh = document.location.host == "localhost:8000" ? true : false;
 
+var sbmt;
+var cler;
 
 //Array of 10 numbers
 var pic = [[],[],[],[],[],[],[],[],[],[]];
@@ -32,8 +35,19 @@ var pic = [[],[],[],[],[],[],[],[],[],[]];
 var data;
 var mtx = [];
 var start = true;
+var isPhone = false;
 
 var neunet;
+
+var w = window,
+  d = document,
+  e = d.documentElement,
+  g = d.getElementsByTagName('body')[0],
+  x1 = w.innerWidth || e.clientWidth || g.clientWidth,
+  y1 = w.innerHeight|| e.clientHeight|| g.clientHeight;
+
+  //Setting size to a 99% of window size
+  var sz = y1<x1 ? y1-y1/5 : x1-x1/5;
 
 function preload(){
   //Loading data
@@ -46,17 +60,32 @@ function preload(){
 
 //Setup actions
 function setup() {
-
   createCanvas(28,28);
   background(255);
   noFill();
+
+  var c = document.getElementById('defaultCanvas0');
+
+  c.addEventListener('mousemove', function(evt) {
+    var mousePos = getMousePos(c, evt);
+    var message = mousePos.x + ',' + mousePos.y;
+    console.log(message);
+  }, false);
+
+  try{
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      isPhone = true;
+    }
+  }catch(er){console.log(er);}
+
 
   //Matrix emptying
   for(let i = 0; i < 784; i++){mtx[i]=0;}
 
   var c = document.getElementById('defaultCanvas0');
   //Upscaling canvas size to 28 by 28
-  c.setAttribute("style","width:280px;height:280px;");
+  let atrt = "width:"+sz+"px;height:"+sz+"px;";
+  c.setAttribute("style",atrt);
 
   neunet = new NeuralNetwork(784, hn, 10);
 
@@ -93,9 +122,14 @@ function setup() {
 function draw(){
   strokeWeight(2);
   stroke(0);
+
   if(mouseIsPressed){
-    line(pmouseX,pmouseY,mouseX,mouseY);
+    if(1==1){
+      line(pmouseX,pmouseY,mouseX,mouseY);
+    }
+
   }
+
 
 }
 
@@ -211,5 +245,12 @@ function subm(){
   console.log("Guess: "+  outs.indexOf(max(outs)));
 }
 
+function getMousePos(canvas, evt) {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: evt.clientX - rect.left,
+    y: evt.clientY - rect.top
+  };
+}
 
 function clr() {background(255);}
