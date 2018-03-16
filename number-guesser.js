@@ -1,15 +1,46 @@
-var start = true;
+  //////////////////////////////////
+//          ADJUSTABLE          //
+//            VALUES            //
+//////////////////////////////////
+
+// Length of training set
+// !WARNING! THIS NUMBER DEPENDS ON
+// AVAILABILITY numbers%times%.mnist FILES
 var times = 5000;
+
+// Amount of training epochs
 var t_c = 1;
+
+//Hidden neurones
+var hn = 1;
+
+//////////////////////////////////
+//          ADJUSTABLE          //
+//            VALUES            //
+//////////////////////////////////
+
+
+
+
+
+var lh = true;
+
 //Array of 10 numbers
 var pic = [[],[],[],[],[],[],[],[],[],[]];
+
 var data;
+var mtx = [];
+var start = true;
 
 var neunet;
 
 function preload(){
   //Loading data
-  data = loadBytes("http://localhost:8000/numbers"+times+".mnist");
+  if(lh){
+    data = loadBytes("http://localhost:8000/numbers"+times+".mnist");
+  }else{
+    data = loadBytes("numbers"+times+".mnist");
+  }
 }
 
 //Setup actions
@@ -19,11 +50,14 @@ function setup() {
   background(255);
   noFill();
 
+  //Matrix emptying
+  for(let i = 0; i < 784; i++){mtx[i]=0;}
+
   var c = document.getElementById('defaultCanvas0');
   //Upscaling canvas size to 28 by 28
   c.setAttribute("style","width:280px;height:280px;");
 
-  neunet = new NeuralNetwork(784, 800, 10);
+  neunet = new NeuralNetwork(784, hn, 10);
 
   for(let n = 0; n < times; n++){
                   // let img = createImage(28,28);
@@ -72,9 +106,8 @@ function subm(){
 
   for(let n = 0; n < t_c; n++){
     let training = pic;
-//    console.log(training);
     for(let i = 0; i < times; i++){
-      let num = round(random(0, 9));
+      let num = Math.round(random(0, 9));
 
       //Skiping already trained numbers
       if(training[num]==undefined){times--;continue;}
@@ -105,7 +138,8 @@ function subm(){
   let ins = [];
   can.loadPixels();
 
-
+  //Matrix emptying
+  for(let i = 0; i < 784; i++){mtx[i]=0;}
 
   //Forming raw inputs
   for(let i = 0; i < 784; i++){
@@ -116,6 +150,7 @@ function subm(){
   var y_start = null;
   var x_end = 0;
   var y_end = 0;
+  var x_start_offset = 0;
 
   //Centering drawing
   for(let i = 0; i < 784; i++){
@@ -123,7 +158,7 @@ function subm(){
     if(ins[i]==0){continue;}else if (ins[i]>0){
       // First point of drawing
         //X
-        if(x_start==null||i%28<x_start){x_start = i%28;}
+        if(x_start==null||i%28<x_start){x_start = i%28;x_start_offset = i%28;}
         //Y
         if(y_start==null){y_start = floor(i/28);}
       // Last point
@@ -133,28 +168,46 @@ function subm(){
         if(floor(i/28)>y_end){y_end=floor(i/28);}
     }
   }
+  //Distance between min x and start x
+  x_start_offset-=x_start;
 
+  var pw = x_end - x_start;
+  var ph = y_end - y_start;
+  var xOffset = floor((28 - pw)/2);
+  var yOffset = floor((28 - ph)/2);
+  var p1 = yOffset * 28 + (xOffset - x_start_offset);
+  var p2 = y_start * 28 + x_start - x_start_offset;
 
+  for(let i = 0; i < 784; i++){
+    if(floor(i/28)>y_end||i+p1>=784||i+p2>=784){break;}
+    mtx[i + p1] = ins[i + p2];
+  }
 
-// for(let y = 0; y < 28; y++){
-//   for(let x = 0; x < 28; x++){
-//     let cli = x%2+y%2==0 ? 255 : 0;
-//     strokeWeight(0.15);
-//     stroke(cli);
-//
-//     rect(x,y,1,1);
-//   }
-// }
+  //Drawing centered drawing
+  let img = createImage(28,28);
+  img.loadPixels();
+  for(let i = 0; i < 784; i++){
+      let val = mtx[i];
+      img.pixels[i * 4 + 0]  = 255-val*255;
+      img.pixels[i * 4 + 1]  = 255-val*255;
+      img.pixels[i * 4 + 2]  = 255-val*255;
+      img.pixels[i * 4 + 3]  = 255;
+  }
+  img.updatePixels();
+  image(img, 0 ,0);
+
+  // //Drawing bounds around drawing
+  // strokeWeight(1);
+  // stroke(255,0,0);
+  // rect(xOffset,yOffset,pw,ph);
 
   //Feedforwarding
-  var outs = neunet.query(ins);
-  stroke(255,0,0);
-  quad(x_start,y_start,x_end,y_start,x_end,y_end,x_start,y_end);
-//  // Finding max from outputs
-//  // And getting its index
-//  // index equals the number we are finding
-  console.log(outs.indexOf(max(outs)));
-  // console.log(pic);
+  var outs = neunet.query(mtx);
+
+  // Finding max from outputs
+  // And getting its index
+  // index equals the number we are finding
+  console.log("Guess: "+  outs.indexOf(max(outs)));
 }
 
 
