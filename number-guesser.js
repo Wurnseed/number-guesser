@@ -6,7 +6,7 @@
 // Length of training set
 // !WARNING! THIS NUMBER DEPENDS ON
 // AVAILABILITY numbers%times%.mnist FILES
-var times = 5000;
+var times = 100;
 
 // Amount of training epochs
 var t_c = 1;
@@ -23,7 +23,8 @@ var hn = 1;
 
 
 
-var lh = window.location.host == "localhost" ? true : false;
+var lh = document.location.host == "localhost:8000" ? true : false;
+
 
 //Array of 10 numbers
 var pic = [[],[],[],[],[],[],[],[],[],[]];
