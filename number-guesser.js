@@ -43,8 +43,8 @@ var w = window,
   d = document,
   e = d.documentElement,
   g = d.getElementsByTagName('body')[0],
-  x1 = w.innerWidth || e.clientWidth || g.clientWidth,
-  y1 = w.innerHeight|| e.clientHeight|| g.clientHeight;
+  x1 = w.innerWidth,// || e.clientWidth || g.clientWidth,
+  y1 = w.innerHeight;//|| e.clientHeight|| g.clientHeight;
 
   //Setting size to a 99% of window size
   var sz = y1<x1 ? y1-y1/5 : x1-x1/5;
@@ -54,7 +54,7 @@ function preload(){
   if(lh){
     data = loadBytes("http://localhost:8000/numbers"+times+".mnist");
   }else{
-    data = loadBytes("numbers"+times+".mnist");
+    data = loadBytes("mnist/numbers"+times+".mnist");
   }
 }
 
@@ -86,6 +86,7 @@ function setup() {
   //Upscaling canvas size to 28 by 28
   let atrt = "width:"+sz+"px;height:"+sz+"px;";
   c.setAttribute("style",atrt);
+  c.setAttribute("class","cvs");
 
   neunet = new NeuralNetwork(784, hn, 10);
 
