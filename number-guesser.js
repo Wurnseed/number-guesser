@@ -23,7 +23,7 @@ var hn = 1;
 
 
 
-var lh = true;
+var lh = window.location.host == "localhost" ? true : false;
 
 //Array of 10 numbers
 var pic = [[],[],[],[],[],[],[],[],[],[]];
