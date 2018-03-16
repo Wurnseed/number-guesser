@@ -6,13 +6,13 @@
 // Length of training set
 // !WARNING! THIS NUMBER DEPENDS ON
 // AVAILABILITY numbers%times%.mnist FILES
-var times = 100;
+var times = 5000;
 
 // Amount of training epochs
 var t_c = 1;
 
 //Hidden neurones
-var hn = 1;
+var hn = 100;
 
 //////////////////////////////////
 //          ADJUSTABLE          //
@@ -25,9 +25,6 @@ var hn = 1;
 // Defining weather it is hosted
 // on localhost or on real server
 var lh = document.location.host == "localhost:8000" ? true : false;
-
-var sbmt;
-var cler;
 
 //Array of 10 numbers
 var pic = [[],[],[],[],[],[],[],[],[],[]];
@@ -43,8 +40,8 @@ var w = window,
   d = document,
   e = d.documentElement,
   g = d.getElementsByTagName('body')[0],
-  x1 = w.innerWidth,// || e.clientWidth || g.clientWidth,
-  y1 = w.innerHeight;//|| e.clientHeight|| g.clientHeight;
+  x1 = w.innerWidth || e.clientWidth || g.clientWidth,
+  y1 = w.innerHeight|| e.clientHeight|| g.clientHeight;
 
   //Setting size to a 99% of window size
   var sz = y1<x1 ? y1-y1/5 : x1-x1/5;
@@ -52,7 +49,7 @@ var w = window,
 function preload(){
   //Loading data
   if(lh){
-    data = loadBytes("http://localhost:8000/numbers"+times+".mnist");
+    data = loadBytes("http://localhost:8000/mnist/numbers"+times+".mnist");
   }else{
     data = loadBytes("mnist/numbers"+times+".mnist");
   }
@@ -69,7 +66,6 @@ function setup() {
   c.addEventListener('mousemove', function(evt) {
     var mousePos = getMousePos(c, evt);
     var message = mousePos.x + ',' + mousePos.y;
-    console.log(message);
   }, false);
 
   try{
