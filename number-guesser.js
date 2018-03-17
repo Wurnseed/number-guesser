@@ -142,12 +142,12 @@ function draw(){
 }
 
 function touchMoved() {
-  if(isPhone==true){
+
     //Is click in the canvas
     let inCnv = winMouseX<=sz&&winMouseY<=sz ? true : false;
     //Drawin
     if(mouseIsPressed&&inCnv){line(mouseX,mouseY,pmouseX,pmouseY);}
-  }
+
 	return false;
 }
 
