@@ -73,6 +73,7 @@ function setup() {
   sbmt = createButton('Submit');
   sbmt.position(0,sz);
   sbmt.mousePressed(subm);
+  sbmt.size(sz/2,sz/10);
 
 
   var c = document.getElementById('defaultCanvas0');
