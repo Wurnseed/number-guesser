@@ -39,8 +39,8 @@ var isPhone = false;
 var sbmt,
     cler;
 
-var prevX = null;
-var prevY = null;
+var prevX;
+var prevY;
 
 var neunet;
 
@@ -77,18 +77,6 @@ function setup() {
 
 
   var c = document.getElementById('defaultCanvas0');
-
-  c.addEventListener('mousemove', function(evt) {
-    var mousePos = getMousePos(c, evt);
-    var message = mousePos.x + ',' + mousePos.y;
-  }, false);
-
-  try{
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-      isPhone = true;
-    }
-  }catch(er){console.log(er);}
-
 
   //Matrix emptying
   for(let i = 0; i < 784; i++){mtx[i]=0;}
@@ -142,13 +130,20 @@ function draw(){
 }
 
 function touchMoved() {
-
+  if(isPhone==true){
     //Is click in the canvas
     let inCnv = winMouseX<=sz&&winMouseY<=sz ? true : false;
     //Drawin
-    if(mouseIsPressed&&inCnv){line(mouseX,mouseY,pmouseX,pmouseY);}
-
+    if(mouseIsPressed&&inCnv){line(mouseX,mouseY,prevX,prevY);}
+    prevX = mouseX;
+    prevY = mouseY;
+  }
 	return false;
+}
+
+function touchEnded() {
+  prevX = mouseX;
+  prevY = mouseY;
 }
 
 //Training and Feedforwarding
@@ -259,20 +254,6 @@ function subm(){
   // And getting its index
   // index equals the number we are finding
   console.log("Guess: "+  outs.indexOf(max(outs)));
-}
-
-function getMousePos(canvas, evt) {
-  var rect = canvas.getBoundingClientRect();
-  return {
-    x: evt.clientX - rect.left,
-    y: evt.clientY - rect.top
-  };
-}
-
-function xy(event) {
-    var x = event.clientX;
-    var y = event.clientY;
-    return [x,y];
 }
 
 function clr() {background(255);}
