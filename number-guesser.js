@@ -131,12 +131,10 @@ function setup() {
 function draw(){
   strokeWeight(2);
   stroke(0);
-  if(mouseIsPressed){
-    if(!touchEnded){
-      line(pmouseX,pmouseY,mouseX,mouseY);
-    }
-
-  }
+  //Is click in the canvas
+  let inCnv = mouseX<=size&&mouseY<=size ? true : false;
+  //Drawin
+  if(mouseIsPressed&&!touchEnded&&inCnv){line(pmouseX,pmouseY,mouseX,mouseY);}
 }
 
 function touchStarted() {touchEnded = false;}
@@ -145,7 +143,7 @@ function   touchEnded() {touchEnded =  true;}
 
 //Training and Feedforwarding
 function subm(){
-  // * AFTER IF IS ASYNC STARTED COMMANDS
+  // * AFTER IF STATEMENT ARE ASYNC STARTED COMMANDS
   if(start){
   //Training
 
