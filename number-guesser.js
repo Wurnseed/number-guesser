@@ -6,13 +6,13 @@
 // Length of training set
 // !WARNING! THIS NUMBER DEPENDS ON
 // AVAILABILITY numbers%times%.mnist FILES
-var times = 5000;
+var times = 100;
 
 // Amount of training epochs
 var t_c = 1;
 
 //Hidden neurones
-var hn = 100;
+var hn = 1;
 
 //////////////////////////////////
 //          ADJUSTABLE          //
@@ -43,8 +43,8 @@ var w = window,
   x1 = w.innerWidth || e.clientWidth || g.clientWidth,
   y1 = w.innerHeight|| e.clientHeight|| g.clientHeight;
 
-  //Setting size to a 99% of window size
-  var sz = y1<x1 ? y1-y1/5 : x1-x1/5;
+  //Setting size to a 97% of window size
+  var sz = y1<x1 ? y1-y1/3 : x1-x1/3;
 
 function preload(){
   //Loading data
