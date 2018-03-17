@@ -139,6 +139,9 @@ function draw(){
 
 }
 
+window.addEventListener('touchstart', function onFirstTouch() {
+  background(255,0,0);
+}, false);
 
 //Training and Feedforwarding
 function subm(){
