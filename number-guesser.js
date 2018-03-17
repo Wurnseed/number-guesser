@@ -4,7 +4,7 @@
 //////////////////////////////////
 
 // Length of training set
-// !WARNING! THIS NUMBER DEPENDS ON
+// !warning! THIS NUMBER DEPENDS ON
 // AVAILABILITY numbers%times%.mnist FILES
 var times = 100;
 
@@ -13,6 +13,8 @@ var t_c = 1;
 
 //Hidden neurones
 var hn = 1;
+
+var touchEnded = false;
 
 //////////////////////////////////
 //          ADJUSTABLE          //
@@ -34,6 +36,12 @@ var mtx = [];
 var start = true;
 var isPhone = false;
 
+var sbmt,
+    cler;
+
+var prevX = null;
+var prevY = null;
+
 var neunet;
 
 var w = window,
@@ -43,8 +51,9 @@ var w = window,
   x1 = w.innerWidth || e.clientWidth || g.clientWidth,
   y1 = w.innerHeight|| e.clientHeight|| g.clientHeight;
 
-  //Setting size to a 97% of window size
-  var sz = y1<x1 ? y1-y1/3 : x1-x1/3;
+  //Setting size to a 80% of window size
+  var sz = y1<x1 ? y1-y1/5 : x1-x1/5;
+
 
 function preload(){
   //Loading data
@@ -60,6 +69,11 @@ function setup() {
   createCanvas(28,28);
   background(255);
   noFill();
+
+  sbmt = createButton('Submit');
+  sbmt.position(0,sz);
+  sbmt.mousePressed(subm);
+
 
   var c = document.getElementById('defaultCanvas0');
 
@@ -109,8 +123,6 @@ function setup() {
     pic[data.bytes[n]].push(temp);
   }
 
-  //Disabling button while training
-  document.getElementById("subm").disabled = true;
   //NN Init
   subm();
 }
@@ -119,16 +131,17 @@ function setup() {
 function draw(){
   strokeWeight(2);
   stroke(0);
-
   if(mouseIsPressed){
-    if(1==1){
+    if(!touchEnded){
       line(pmouseX,pmouseY,mouseX,mouseY);
     }
 
   }
-
-
 }
+
+function touchStarted() {touchEnded = false;}
+
+function   touchEnded() {touchEnded =  true;}
 
 //Training and Feedforwarding
 function subm(){
@@ -156,8 +169,6 @@ function subm(){
     }
   }
 
-  //Enabling button after training
-  document.getElementById("subm").disabled = false;
   start = false;
   //Breaking the func
   return;
