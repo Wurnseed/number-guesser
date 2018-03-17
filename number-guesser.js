@@ -136,7 +136,12 @@ function draw(){
   let inCnv = winMouseX<=sz&&winMouseY<=sz ? true : false;
   //Drawin
   if(mouseIsPressed&&!touchEnded&&inCnv){line(pmouseX,pmouseY,mouseX,mouseY);}
+
 }
+
+function mouseReleased() {
+  background(255,0,0);
+  }
 
 function touchStarted() {touchEnded = false;}
 
