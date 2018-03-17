@@ -14,7 +14,7 @@ var t_c = 1;
 //Hidden neurones
 var hn = 1;
 
-var touchEnded = false;
+var touchEnded = true;
 
 //////////////////////////////////
 //          ADJUSTABLE          //
@@ -135,14 +135,10 @@ function draw(){
   //Is click in the canvas
   let inCnv = winMouseX<=sz&&winMouseY<=sz ? true : false;
   //Drawin
-  if(mouseIsPressed&&!touchEnded&&inCnv){line(pmouseX,pmouseY,mouseX,mouseY);}
+  if(mouseIsPressed&&inCnv){line(pmouseX,pmouseY,mouseX,mouseY);}
 
 }
 
-
-function touchStarted() {touchEnded = false;}
-
-function   touchEnded() {touchEnded =  true;  background(255,0,0);}
 
 //Training and Feedforwarding
 function subm(){
