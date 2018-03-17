@@ -139,13 +139,10 @@ function draw(){
 
 }
 
-function mouseReleased() {
-  background(255,0,0);
-  }
 
 function touchStarted() {touchEnded = false;}
 
-function   touchEnded() {touchEnded =  true;}
+function   touchEnded() {touchEnded =  true;  background(255,0,0);}
 
 //Training and Feedforwarding
 function subm(){
