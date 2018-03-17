@@ -132,16 +132,24 @@ function setup() {
 function draw(){
   strokeWeight(2);
   stroke(0);
-  //Is click in the canvas
-  let inCnv = winMouseX<=sz&&winMouseY<=sz ? true : false;
-  //Drawin
-  if(mouseIsPressed&&inCnv){line(pmouseX,pmouseY,mouseX,mouseY);}
 
+  if(isPhone==false){
+    //Is click in the canvas
+    let inCnv = winMouseX<=sz&&winMouseY<=sz ? true : false;
+    //Drawin
+    if(mouseIsPressed&&inCnv){line(mouseX,mouseY,pmouseX,pmouseY);}
+  }
 }
 
-window.addEventListener('touchstart', function onFirstTouch() {
-  background(255,0,0);
-}, false);
+function touchMoved() {
+  if(isPhone==true){
+    //Is click in the canvas
+    let inCnv = winMouseX<=sz&&winMouseY<=sz ? true : false;
+    //Drawin
+    if(mouseIsPressed&&inCnv){line(mouseX,mouseY,pmouseX,pmouseY);}
+  }
+	return false;
+}
 
 //Training and Feedforwarding
 function subm(){
