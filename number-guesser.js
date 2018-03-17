@@ -129,6 +129,11 @@ function draw(){
   }
 }
 
+function touchStarted() {
+  prevX = mouseX;
+  prevY = mouseY;
+}
+
 function touchMoved() {
   if(isPhone==true){
     //Is click in the canvas
@@ -141,10 +146,6 @@ function touchMoved() {
 	return false;
 }
 
-function touchEnded() {
-  prevX = mouseX;
-  prevY = mouseY;
-}
 
 //Training and Feedforwarding
 function subm(){
