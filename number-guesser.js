@@ -133,7 +133,7 @@ function draw(){
   strokeWeight(2);
   stroke(0);
   //Is click in the canvas
-  let inCnv = mouseX<=size&&mouseY<=size ? true : false;
+  let inCnv = winMouseX<=sz&&winMouseY<=sz ? true : false;
   //Drawin
   if(mouseIsPressed&&!touchEnded&&inCnv){line(pmouseX,pmouseY,mouseX,mouseY);}
 }
@@ -258,6 +258,12 @@ function getMousePos(canvas, evt) {
     x: evt.clientX - rect.left,
     y: evt.clientY - rect.top
   };
+}
+
+function xy(event) {
+    var x = event.clientX;
+    var y = event.clientY;
+    return [x,y];
 }
 
 function clr() {background(255);}
