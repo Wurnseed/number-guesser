@@ -55,13 +55,10 @@ var w = window,
   var sz = y1<x1 ? y1-y1/10 : x1-x1/10;
 
 
+//Loading data
 function preload(){
-  //Loading data
-  if(lh){
-    data = loadBytes("http://localhost:8000/mnist/numbers"+times+".mnist");
-  }else{
-    data = loadBytes("mnist/numbers"+times+".mnist");
-  }
+  if(lh){data = loadBytes("http://localhost:8000/mnist/numbers"+times+".mnist");}
+  else{data = loadBytes("mnist/numbers"+times+".mnist");}
 }
 
 //Setup actions
@@ -70,16 +67,15 @@ function setup() {
   background(255);
   noFill();
 
+  sbmt = createButton('Submit');
+  sbmt.position(0,sz);
+  sbmt.mousePressed(subm);
+  sbmt.size(sz/2,sz/10);
+
   cler = createButton('Clear');
   cler.position(sz/2,sz);
   cler.mousePressed(clr);
   cler.size(sz/2,sz/10);
-
-
-  // sbmt = createButton('Submit');
-  // sbmt.position(0,sz);
-  // sbmt.mousePressed(subm);
-  // sbmt.size(sz/2,sz/10);
 
   //Matrix emptying
   for(let i = 0; i < 784; i++){mtx[i]=0;}
@@ -142,7 +138,7 @@ function touchMoved() {
     //Is click in the canvas
     let inCnv = winMouseX<=sz&&winMouseY<=sz ? true : false;
     //Drawin
-    if(mouseIsPressed&&inCnv){line(mouseX,mouseY,prevX,prevY);}
+    if(mouseIsPressed&&inCnv){line(mouseX,mouseY,pmouseX,pmouseY);}
     prevX = mouseX;
     prevY = mouseY;
   }
