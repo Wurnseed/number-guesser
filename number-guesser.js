@@ -70,20 +70,16 @@ function setup() {
   background(255);
   noFill();
 
-  sbmt = createButton('Submit');
-  sbmt.position(0,sz);
-  sbmt.mousePressed(subm);
-  sbmt.size(sz/2,sz/10);
-
   cler = createButton('Clear');
   cler.position(sz/2,sz);
   cler.mousePressed(clr);
   cler.size(sz/2,sz/10);
 
-  console.log(sbmt);
 
-
-  var c = document.getElementById('defaultCanvas0');
+  sbmt = createButton('Submit');
+  sbmt.position(0,sz);
+  sbmt.mousePressed(subm);
+  sbmt.size(sz/2,sz/10);
 
   //Matrix emptying
   for(let i = 0; i < 784; i++){mtx[i]=0;}
