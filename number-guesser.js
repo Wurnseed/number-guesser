@@ -51,8 +51,8 @@ var w = window,
   x1 = w.innerWidth || e.clientWidth || g.clientWidth,
   y1 = w.innerHeight|| e.clientHeight|| g.clientHeight;
 
-  //Setting size to a 80% of window size
-  var sz = y1<x1 ? y1-y1/5 : x1-x1/5;
+  //Setting size to a 90% of window size
+  var sz = y1<x1 ? y1-y1/10 : x1-x1/10;
 
 
 function preload(){
@@ -74,6 +74,13 @@ function setup() {
   sbmt.position(0,sz);
   sbmt.mousePressed(subm);
   sbmt.size(sz/2,sz/10);
+
+  cler = createButton('Clear');
+  cler.position(sz/2,sz);
+  cler.mousePressed(clr);
+  cler.size(sz/2,sz/10);
+
+  console.log(sbmt);
 
 
   var c = document.getElementById('defaultCanvas0');
