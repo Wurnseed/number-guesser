@@ -76,10 +76,10 @@ function setup() {
   cler.size(sz/2,sz/10);
 
 
-  sbmt = createButton('Submit');
-  sbmt.position(0,sz);
-  sbmt.mousePressed(subm);
-  sbmt.size(sz/2,sz/10);
+  // sbmt = createButton('Submit');
+  // sbmt.position(0,sz);
+  // sbmt.mousePressed(subm);
+  // sbmt.size(sz/2,sz/10);
 
   //Matrix emptying
   for(let i = 0; i < 784; i++){mtx[i]=0;}
