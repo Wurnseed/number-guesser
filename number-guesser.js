@@ -48,8 +48,8 @@ var w = window,
   d = document,
   e = d.documentElement,
   g = d.getElementsByTagName('body')[0],
-  x1 = w.innerWidth || e.clientWidth || g.clientWidth,
-  y1 = w.innerHeight|| e.clientHeight|| g.clientHeight;
+  x1 = w.innerWidth || e.clientWidth || g.clientWidth || Screen.width,
+  y1 = w.innerHeight|| e.clientHeight|| g.clientHeight || Screen.height;
 
   //Setting size to a 90% of window size
   var sz = y1<x1 ? y1-y1/10 : x1-x1/10;
