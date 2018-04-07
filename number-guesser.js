@@ -197,8 +197,6 @@ if(start){
       for(let i  = 0; i < 10; i++){if(i!=num){out.push(0);}if(i===num){out.push(1);}}
 
       neunet.train(el,out);
-      startup();
-      start_canvas();
     }
   }
 
