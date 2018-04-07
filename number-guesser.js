@@ -42,6 +42,8 @@ var sbmt,
 var prevX;
 var prevY;
 
+var stupidvarieble = 0;
+
 var neunet;
 
 var w = window,
@@ -153,7 +155,16 @@ function draw(){
 // }
 
 function touchMoved() {
-	line(mouseX, mouseY, mouseX, mouseY);
+  if(stupidvarieble !=0){
+    line(mouseX, mouseY, prevX, prevY);
+    prevX=mouseX;
+    prevY=mouseY;
+  }else{
+    line(mouseX, mouseY, mouseX, mouseY);
+    prevX=mouseX;
+    prevY=mouseY;
+    stupidvarieble = 1;
+  }
 	return false;
 }
 
