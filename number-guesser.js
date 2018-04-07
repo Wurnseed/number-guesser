@@ -56,6 +56,7 @@ var w = window,
 
   var txt;
 
+
 //Loading data
 function preload(){
   if(lh){data = loadBytes("http://localhost:8000/mnist/numbers"+times+".mnist");}
@@ -152,7 +153,7 @@ function draw(){
 // }
 
 function touchMoved() {
-	line(pmouseX, pmouseY, pmouseX, pmouseY);
+	line(mouseX, mouseY, mouseX, mouseY);
 	return false;
 }
 
