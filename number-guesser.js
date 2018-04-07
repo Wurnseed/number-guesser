@@ -170,9 +170,15 @@ function touchMoved() {
 
 function touchEnded(){
    stupidvariable = 0;
+   console.log("ha");
    return false;
 }
 
+function mouseReleased(){
+   stupidvariable = 0;
+   console.log("ha");
+   return false;
+}
 
 //Training and Feedforwarding
 function subm(){
