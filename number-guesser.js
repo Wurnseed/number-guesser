@@ -127,12 +127,12 @@ function draw(){
   strokeWeight(2);
   stroke(0);
 
-  if(isPhone==false){
-    //Is click in the canvas
-    let inCnv = winMouseX<=sz&&winMouseY<=sz+sz/10 ? true : false;
-    //Drawin
-    if(mouseIsPressed&&inCnv){line(mouseX,mouseY,pmouseX,pmouseY);}
-  }
+  // if(isPhone==false){
+  //   //Is click in the canvas
+  //   let inCnv = winMouseX<=sz&&winMouseY<=sz+sz/10 ? true : false;
+  //   //Drawin
+  //   if(mouseIsPressed&&inCnv){line(mouseX,mouseY,pmouseX,pmouseY);}
+  // }
 }
 
 // function touchStarted() {
