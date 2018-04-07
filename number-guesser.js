@@ -169,7 +169,8 @@ function touchMoved() {
 }
 
 function touchEnded(){
- stupidvariable = 0;
+   stupidvariable = 0;
+   return false;
 }
 
 
