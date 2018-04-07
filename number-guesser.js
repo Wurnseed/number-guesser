@@ -42,7 +42,7 @@ var sbmt,
 var prevX;
 var prevY;
 
-var stupidvarieble = 0;
+var stupidvariable = 0;
 
 var neunet;
 
@@ -155,7 +155,7 @@ function draw(){
 // }
 
 function touchMoved() {
-  if(stupidvarieble !=0){
+  if(stupidvariable !=0){
     line(mouseX, mouseY, prevX, prevY);
     prevX=mouseX;
     prevY=mouseY;
@@ -163,11 +163,14 @@ function touchMoved() {
     line(mouseX, mouseY, mouseX, mouseY);
     prevX=mouseX;
     prevY=mouseY;
-    stupidvarieble = 1;
+    stupidvariable = 1;
   }
 	return false;
 }
 
+function touchEnded(){
+ stupidvariable = 0;
+}
 
 
 //Training and Feedforwarding
