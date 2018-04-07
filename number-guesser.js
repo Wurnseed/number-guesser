@@ -48,11 +48,13 @@ var w = window,
   d = document,
   e = d.documentElement,
   g = d.getElementsByTagName('body')[0],
-  x1 = w.screen.width || w.innerWidth || e.clientWidth || g.clientWidth,
-  y1 = w.screen.height || w.innerHeight|| e.clientHeight|| g.clientHeight;
+  x1 = w.innerWidth || e.clientWidth || g.clientWidth,
+  y1 = w.innerHeight|| e.clientHeight|| g.clientHeight;
 
-  //Setting size to a 90% of window size
-  var sz = y1<x1 ? y1-y1/10 : x1-x1/10;
+  //Setting size to a 80% of window size
+  var sz = y1<x1 ? y1-y1/5 : x1-x1/5;
+
+  var txt;
 
 
 //Loading data
@@ -63,28 +65,33 @@ function preload(){
 
 //Setup actions
 function setup() {
-  createCanvas(28,28);
+  txt = createP('.');
+  txt.attribute('class','txet');
+
+  let strsz = 'font-size: ' + sz/10 + 'px;visibility: hidden;';
+  txt.attribute('style',strsz);
+
+  var c = createCanvas(28,28);
   background(255);
   noFill();
 
   sbmt = createButton('Submit');
-  sbmt.position(0,sz);
+  sbmt.position(0,sz+sz/8);
   sbmt.mousePressed(subm);
   sbmt.size(sz/2,sz/10);
 
   cler = createButton('Clear');
-  cler.position(sz/2,sz);
+  cler.position(sz/2,sz+sz/8);
   cler.mousePressed(clr);
   cler.size(sz/2,sz/10);
 
   //Matrix emptying
   for(let i = 0; i < 784; i++){mtx[i]=0;}
 
-  var c = document.getElementById('defaultCanvas0');
   //Upscaling canvas size to 28 by 28
   let atrt = "width:"+sz+"px;height:"+sz+"px;";
-  c.setAttribute("style",atrt);
-  c.setAttribute("class","cvs");
+  c.attribute("style",atrt);
+  c.attribute("class","cvs");
 
   neunet = new NeuralNetwork(784, hn, 10);
 
@@ -122,34 +129,40 @@ function draw(){
 
   if(isPhone==false){
     //Is click in the canvas
-    let inCnv = winMouseX<=sz&&winMouseY<=sz ? true : false;
+    let inCnv = winMouseX<=sz&&winMouseY<=sz+sz/10 ? true : false;
     //Drawin
     if(mouseIsPressed&&inCnv){line(mouseX,mouseY,pmouseX,pmouseY);}
   }
 }
 
-function touchStarted() {
-  prevX = mouseX;
-  prevY = mouseY;
-}
+// function touchStarted() {
+//   prevX = mouseX;
+//   prevY = mouseY;
+// }
+//
+// function touchMoved() {
+//   if(isPhone==true){
+//     //Is click in the canvas
+//     let inCnv = winMouseX<=sz&&winMouseY<=sz+sz/10 ? true : false;
+//     //Drawin
+//     if(mouseIsPressed&&inCnv){line(mouseX,mouseY,pmouseX,pmouseY);}
+//     prevX = mouseX;
+//     prevY = mouseY;
+//   }
+// 	return false;
+// }
 
 function touchMoved() {
-  if(isPhone==true){
-    //Is click in the canvas
-    let inCnv = winMouseX<=sz&&winMouseY<=sz ? true : false;
-    //Drawin
-    if(mouseIsPressed&&inCnv){line(mouseX,mouseY,pmouseX,pmouseY);}
-    prevX = mouseX;
-    prevY = mouseY;
-  }
+	line(mouseX, mouseY, pmouseX, pmouseY);
 	return false;
 }
+
 
 
 //Training and Feedforwarding
 function subm(){
   // * AFTER IF STATEMENT ARE ASYNC STARTED COMMANDS
-  if(start){
+if(start){
   //Training
 
   for(let n = 0; n < t_c; n++){
@@ -169,15 +182,19 @@ function subm(){
       for(let i  = 0; i < 10; i++){if(i!=num){out.push(0);}if(i===num){out.push(1);}}
 
       neunet.train(el,out);
+      startup();
+      start_canvas();
     }
   }
 
   start = false;
   //Breaking the func
   return;
-  }
+}
   //BUTTON FUNCTION
 
+  let strsz = 'font-size: ' + sz/10 + 'px;visibility: visible;';
+  txt.attribute('style',strsz);
 
   //Getting data from canvas
   let can = get();
@@ -188,9 +205,7 @@ function subm(){
   for(let i = 0; i < 784; i++){mtx[i]=0;}
 
   //Forming raw inputs
-  for(let i = 0; i < 784; i++){
-    ins[i] =  (255 - can.pixels[i * 4])/255;
-  }
+  for(let i = 0; i < 784; i++){ins[i] =  (255 - can.pixels[i * 4])/255;}
 
   var x_start = null;
   var y_start = null;
@@ -217,6 +232,7 @@ function subm(){
   //Distance between min x and start x
   x_start_offset-=x_start;
 
+  //Some boring formulas to find that stuff
   var pw = x_end - x_start;
   var ph = y_end - y_start;
   var xOffset = floor((28 - pw)/2);
@@ -234,15 +250,21 @@ function subm(){
   img.loadPixels();
   for(let i = 0; i < 784; i++){
       let val = mtx[i];
-      img.pixels[i * 4 + 0]  = 255-val*255;
-      img.pixels[i * 4 + 1]  = 255-val*255;
-      img.pixels[i * 4 + 2]  = 255-val*255;
-      img.pixels[i * 4 + 3]  = 255;
+      //R
+      img.pixels[i*4]  = 255-val*255;
+      //G
+      img.pixels[i*4 + 1]  = 255-val*255;
+      //B
+      img.pixels[i*4 + 2]  = 255-val*255;
+      //Transperency
+      img.pixels[i*4 + 3]  = 255;
   }
   img.updatePixels();
   image(img, 0 ,0);
 
   // //Drawing bounds around drawing
+  // //This thing was used only in debugging
+  // //If you want to get some lulz, try it
   // strokeWeight(1);
   // stroke(255,0,0);
   // rect(xOffset,yOffset,pw,ph);
@@ -253,7 +275,10 @@ function subm(){
   // Finding max from outputs
   // And getting its index
   // index equals the number we are finding
-  console.log("Guess: "+  outs.indexOf(max(outs)));
+  txt.elt.innerText = outs.indexOf(max(outs));
+  console.log(neunet.wih.matrix[0]);
+  console.log(neunet.who.matrix[0]);
+
 }
 
 function clr() {background(255);}

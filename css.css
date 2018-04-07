@@ -1,10 +1,14 @@
 .btn{
-  /* position: absolute;
-  top: 15px;
-  left: 15px; */
-  padding: 2%;
+  margin-left: 0.5px;
 }
 
 .cvs{
+border: 1px solid #000;
+}
 
+.txet{
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  color: #ff0000;
 }
