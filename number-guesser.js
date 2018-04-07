@@ -169,9 +169,9 @@ function touchMoved() {
 }
 
 function touchEnded(){
-   stupidvariable = 0;
-   console.log("ha");
-   return false;
+  stupidvariable = 0;
+  line(0,0,10,10);
+  return false;
 }
 
 function mouseReleased(){
