@@ -152,7 +152,7 @@ function draw(){
 // }
 
 function touchMoved() {
-	line(mouseX, mouseY, mouseX, mouseY);
+	line(pmouseX, pmouseY, pmouseX, pmouseY);
 	return false;
 }
 
