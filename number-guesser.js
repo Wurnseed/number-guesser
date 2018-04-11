@@ -14,8 +14,6 @@ var t_c = 1;
 //Hidden neurones
 var hn = 1;
 
-var touchEnded = true;
-
 //////////////////////////////////
 //          ADJUSTABLE          //
 //            VALUES            //
@@ -33,8 +31,10 @@ var pic = [[],[],[],[],[],[],[],[],[],[]];
 
 var data;
 var mtx = [];
+//Matrix of 28 layers
+var layers = [[],[],[],[],[], [],[],[],[],[], [],[],[],[],[], [],[],[],[],[], [],[],[],[],[], [],[],[]];
+var cs_mtx = [];
 var start = true;
-var isPhone = false;
 
 var sbmt,
     cler;
@@ -46,12 +46,14 @@ var stupidvariable = 0;
 
 var neunet;
 
-var w = window,
-  d = document,
-  e = d.documentElement,
-  g = d.getElementsByTagName('body')[0],
-  x1 = w.innerWidth || e.clientWidth || g.clientWidth,
-  y1 = w.innerHeight|| e.clientHeight|| g.clientHeight;
+/* Copied this code below from StackOverflow */
+/**/ var w = window,
+/**/ d = document,
+/**/ e = d.documentElement,
+/**/ g = d.getElementsByTagName('body')[0],
+/**/ x1 = w.innerWidth || e.clientWidth || g.clientWidth,
+/**/ y1 = w.innerHeight|| e.clientHeight|| g.clientHeight;
+/* Copied this code above from StackOverflow */
 
   //Setting size to a 80% of window size
   var sz = y1<x1 ? y1-y1/5 : x1-x1/5;
@@ -78,12 +80,12 @@ function setup() {
   noFill();
 
   sbmt = createButton('Submit');
-  sbmt.position(0,sz+sz/8);
+  sbmt.position(0,sz+sz/7);
   sbmt.mousePressed(subm);
   sbmt.size(sz/2,sz/10);
 
   cler = createButton('Clear');
-  cler.position(sz/2,sz+sz/8);
+  cler.position(sz/2,sz+sz/7);
   cler.mousePressed(clr);
   cler.size(sz/2,sz/10);
 
@@ -128,31 +130,7 @@ function setup() {
 function draw(){
   strokeWeight(2);
   stroke(0);
-
-  // if(isPhone==false){
-  //   //Is click in the canvas
-  //   let inCnv = winMouseX<=sz&&winMouseY<=sz+sz/10 ? true : false;
-  //   //Drawin
-  //   if(mouseIsPressed&&inCnv){line(mouseX,mouseY,pmouseX,pmouseY);}
-  // }
 }
-
-// function touchStarted() {
-//   prevX = mouseX;
-//   prevY = mouseY;
-// }
-//
-// function touchMoved() {
-//   if(isPhone==true){
-//     //Is click in the canvas
-//     let inCnv = winMouseX<=sz&&winMouseY<=sz+sz/10 ? true : false;
-//     //Drawin
-//     if(mouseIsPressed&&inCnv){line(mouseX,mouseY,pmouseX,pmouseY);}
-//     prevX = mouseX;
-//     prevY = mouseY;
-//   }
-// 	return false;
-// }
 
 function touchMoved() {
   if(stupidvariable !=0){
@@ -213,11 +191,12 @@ if(start){
   let strsz = 'font-size: ' + sz/10 + 'px;visibility: visible;';
   txt.attribute('style',strsz);
 
+
+
   //Getting data from canvas
   let can = get();
   let ins = [];
   can.loadPixels();
-
   //Matrix emptying
   for(let i = 0; i < 784; i++){mtx[i]=0;}
 
@@ -229,6 +208,7 @@ if(start){
   var x_end = 0;
   var y_end = 0;
   var x_start_offset = 0;
+  cs_mtx = [];
 
   //Centering drawing
   for(let i = 0; i < 784; i++){
@@ -249,9 +229,10 @@ if(start){
   //Distance between min x and start x
   x_start_offset-=x_start;
 
-  //Some boring formulas to find that stuff
+  //Some boring formulas to find needed stuff
   var pw = x_end - x_start;
   var ph = y_end - y_start;
+//  console.log("Height: ", ph, "\nWidth: ", pw);
   var xOffset = floor((28 - pw)/2);
   var yOffset = floor((28 - ph)/2);
   var p1 = yOffset * 28 + (xOffset - x_start_offset);
@@ -262,13 +243,149 @@ if(start){
     mtx[i + p1] = ins[i + p2];
   }
 
+  let xctnt = 0;
+  //Filling layers Array
+  for(let i = 0; i < 28; i++){
+    for(let j = 0; j < 28; j++){
+      layers[i][j] = mtx[xctnt];
+      xctnt++;
+    }
+  }
+
+  //Scaling drawing height to 20px
+  if(ph!=20){
+    let ratio = 20/ph;
+    let xratio = 0;
+
+    let np = ratio*1.5;
+    let wp = 0;
+    let nw = 0;
+    let hei = 0;
+
+    //Adding offset
+    for(let i = 0; i<yOffset; i++){
+      let poop = [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0];
+      cs_mtx = cs_mtx.concat(poop);
+    }
+
+    //Scaling height
+    for(let i  = yOffset; i < ph+1.5*yOffset; i++){
+      while(np>=1){
+        cs_mtx = cs_mtx.concat(layers[i]);
+        np--;
+      }
+      np+=ratio;
+    }
+
+    //Count scaled height
+    for(let i = 0; i < 28; i++){
+      for(let j = 0; j < 28; j++){
+        if(cs_mtx[i*28+j]>0){
+          hei++;
+          i++;
+          j=0;
+        }
+      }
+    }
+    hei-=1;
+
+    //Scaled width
+    nw = Math.round(pw*hei/ph);
+    xratio = pw/nw;
+    wp = xratio;
+    let ctnn = 0;
+
+    let l_cs_mtx = [];
+    for(){
+
+    }
+
+    let rev_cs_mtx = [];
+    for(let i = 0; i < 28; i++){
+      for(let j = 0; j < 28; j++){
+
+      }
+    }
+
+
+    for(let i = 0; i<28-ph+6-(yOffset); i++){
+      if(cs_mtx.length<784){
+        let poop = [0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0];
+        cs_mtx = cs_mtx.concat(poop);
+      }
+    }
+  }else{
+    for(let i = 0; i < 28; i++){
+      cs_mtx = cs_mtx.concat(layers[i]);
+    }
+  }
+
+    //Centering drawing
+    ins = cs_mtx;
+
+    var x_start = null;
+    var y_start = null;
+    var x_end = 0;
+    var y_end = 0;
+    var x_start_offset = 0;
+    cs_mtx = [];
+
+    //Centering drawing
+    for(let i = 0; i < 784; i++){
+      //Skips white pixels
+      if(ins[i]==0){continue;}else if (ins[i]>0){
+        // First point of drawing
+          //X
+          if(x_start==null||i%28<x_start){x_start = i%28;x_start_offset = i%28;}
+          //Y
+          if(y_start==null){y_start = floor(i/28);}
+        // Last point
+          //X
+          if(i%28>x_end){x_end=i%28;}
+          //Y
+          if(floor(i/28)>y_end){y_end=floor(i/28);}
+      }
+    }
+    //Distance between min x and start x
+    x_start_offset-=x_start;
+
+    //Some boring formulas to find needed stuff
+    var pw = x_end - x_start;
+    var ph = y_end - y_start;
+    //console.log("Height scaled: ", ph, "\nWidth scaled: ", pw);
+    var xOffset = floor((28 - pw)/2);
+    var yOffset = floor((28 - ph)/2);
+    var p1 = yOffset * 28 + (xOffset - x_start_offset);
+    var p2 = y_start * 28 + x_start - x_start_offset;
+
+    for(let i = 0; i < 784; i++){
+      if(floor(i/28)>y_end||i+p1>=784||i+p2>=784){break;}
+      mtx[i + p1] = ins[i + p2];
+    }
+
+  cs_mtx = mtx;
+
+  //Making area out of centered 20x20 box white
+  for(let i = 0; i < 8; i++){
+    for(let j = 0; j < 28; j++){
+      if(i<4){
+        cs_mtx[i*28+j]=0;
+      }else{
+        cs_mtx[((i+20)*28)+j]=0;
+      }
+    }
+  }
+
+
   //Drawing centered drawing
+  //Thx Daniel Shiffman
   let img = createImage(28,28);
   img.loadPixels();
   for(let i = 0; i < 784; i++){
-      let val = mtx[i];
+      let val = cs_mtx[i];
       //R
-      img.pixels[i*4]  = 255-val*255;
+      //Yeah, he`s i*4 + 0
+      img.pixels[i*4 + 0]  = 255-val*255;
       //G
       img.pixels[i*4 + 1]  = 255-val*255;
       //B
@@ -279,23 +396,47 @@ if(start){
   img.updatePixels();
   image(img, 0 ,0);
 
+
   // //Drawing bounds around drawing
-  // //This thing was used only in debugging
+  // //This thing was used  for debugging
   // //If you want to get some lulz, try it
   // strokeWeight(1);
   // stroke(255,0,0);
   // rect(xOffset,yOffset,pw,ph);
 
+
   //Feedforwarding
-  var outs = neunet.query(mtx);
+  var outs = neunet.query(cs_mtx);
+
 
   // Finding max from outputs
   // And getting its index
   // index equals the number we are finding
-  txt.elt.innerText = outs.indexOf(max(outs));
-  console.log(neunet.wih.matrix[0]);
-  console.log(neunet.who.matrix[0]);
+ txt.elt.innerText = softmax(outs).indexOf(max(softmax(outs)));
+  // console.log(neunet.wih.matrix[0]);
+  // console.log(neunet.who.matrix[0]);
 
 }
 
 function clr() {background(255);}
+
+//THX Jabrils
+function softmax(vec) {
+    VEC = [];
+    for (var i = 0; i < vec.length; i++) {
+        VEC[i] = Math.pow(Math.E, vec[i]) / Summation(vec);
+    }
+    return VEC;
+}
+
+//THX Jabrils
+function Summation(vec) {
+    final = 0;
+    for (var i = 0; i < vec.length; i++) {
+        final += Math.pow(Math.E, (vec[i]))
+    }
+    return final;
+}
+
+//I was to lazy to wriste dat code
+//THX Jabrils, again

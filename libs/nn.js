@@ -31,6 +31,11 @@ NeuralNetwork.dtanh = function(x) {
   return y;
 }
 
+//ADDED RELU
+NeuralNetwork.reLU = function(x){if(x<0){return 0;}else{return x;}}
+NeuralNetwork.dreLU = function(x){return 0;}
+
+
 // This is how we adjust weights ever so slightly
 function mutate(x) {
   if (random(1) < 0.1) {
@@ -84,9 +89,13 @@ function NeuralNetwork(inputnodes, hiddennodes, outputnodes, learning_rate, acti
     if (activation == 'tanh') {
       this.activation = NeuralNetwork.tanh;
       this.derivative = NeuralNetwork.dtanh;
-    } else {
+    } if (activation == 'sigmoid') {
       this.activation = NeuralNetwork.sigmoid;
       this.derivative = NeuralNetwork.dSigmoid;
+      ///MODIFIED THIS CODE! ADDED RELU
+    } else {
+      this.activation = NeuralNetwork.reLU;
+      this.derivative = NeuralNetwork.dreLU;
     }
 
   }
