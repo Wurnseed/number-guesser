@@ -5,7 +5,7 @@
 
 // Length of training set
 // !warning! THIS NUMBER DEPENDS ON
-// AVAILABILITY numbers%times%.mnist FILES
+// AVAILABILITY OF numbers%times%.mnist FILE
 var times = 100;
 
 // Amount of training epochs
@@ -28,6 +28,7 @@ var lh = document.location.host == "localhost:8000" ? true : false;
 
 //Array of 10 numbers
 var pic = [[],[],[],[],[],[],[],[],[],[]];
+var rev_l_cs_mtx = [[],[],[],[],[], [],[],[],[],[], [],[],[],[],[], [],[],[],[],[], [],[],[],[],[], [],[],[]];
 
 var data;
 var mtx = [];
@@ -289,24 +290,55 @@ if(start){
     }
     hei-=1;
 
+    let l_cs_mtx = new Matrix(28,28);
+    for(let i = 0; i < 28; i++){
+      for(let j = 0; j < 28; j++){
+        l_cs_mtx.matrix[i][j]=cs_mtx[i*28+j];
+      }
+    }
+
+    let rev_cs_mtx = l_cs_mtx.transpose();
+
+
+    for(let i = 0; i < 28; i++){
+      for(let j = 0; j < 28; j++){
+        cs_mtx[i*28+j]=rev_cs_mtx.matrix[i][j];
+      }
+    }
+
+    console.log(rev_l_cs_mtx);
+
+    //Layered cs_mtx
+    for(let i = 0; i < 28; i++){
+      for(let j = 0; j < 28; j++){
+        rev_l_cs_mtx[i][j]=cs_mtx[i*28+j];
+      }
+    }
+
     //Scaled width
     nw = Math.round(pw*hei/ph);
     xratio = pw/nw;
     wp = xratio;
     let ctnn = 0;
 
-    let l_cs_mtx = [];
-    for(){
+    let temp_rev_cs_mtx = new Matrix(28,28);
 
-    }
-
-    let rev_cs_mtx = [];
-    for(let i = 0; i < 28; i++){
-      for(let j = 0; j < 28; j++){
-
+    for(let i  = xOffset; i < pw+1.5*xOffset; i++){
+      while(wp>=1){
+        temp_rev_cs_mtx.matrix = temp_rev_cs_mtx.matrix.concat(rev_l_cs_mtx[i]);
+        wp--;
       }
+      wp+=xratio;
     }
 
+    // let matrix = temp_rev_cs_mtx.transpose();
+    //
+    //
+    // for(let i = 0; i < 28; i++){
+    //   for(let j = 0; j < 28; j++){
+    //     cs_mtx[i*28+j]=matrix.matrix[i][j];
+    //   }
+    // }
 
     for(let i = 0; i<28-ph+6-(yOffset); i++){
       if(cs_mtx.length<784){
